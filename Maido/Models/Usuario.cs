@@ -16,6 +16,7 @@ namespace Maido.Models
         [Required]
         [DisplayName("Contraseña")]
         public string Contrasena { get; set; }
+        [DisplayName("Estado")]
         public bool Activo { get; set; }
         [DisplayName("Fecha de Creacion")]
         public DateOnly FechaCreacion { get; set; } = DateOnly.FromDateTime(DateTime.Today);

@@ -49,5 +49,34 @@ namespace Maido.Controllers
             return View("Usuario/Create", newUsuario);
         }
 
+        public IActionResult UsuarioEditar(int id)
+        {
+            Usuario usuarioAeditar = _usuarioRepo.GetById(id);
+            ViewBag.Usuario = HttpContext.Session.Get<Usuario>("usuarioLogeado");
+            return View("Usuario/Edit",usuarioAeditar);
+        }
+        [HttpPost]
+        public IActionResult UsuarioEditar(Usuario usuario)
+        {
+            _usuarioRepo.Update(usuario);
+            return RedirectToAction("UsuarioList");
+        }
+
+        public IActionResult UsuarioDesactivar(int id)
+        {
+            Usuario usuarioAdesactivar=_usuarioRepo.GetById(id);
+            usuarioAdesactivar.Activo = false;
+            _usuarioRepo.Update(usuarioAdesactivar);
+            return RedirectToAction("UsuarioList");
+        }
+
+        public IActionResult UsuarioActivar(int id)
+        {
+            Usuario usuarioAdesactivar = _usuarioRepo.GetById(id);
+            usuarioAdesactivar.Activo = true;
+            _usuarioRepo.Update(usuarioAdesactivar);
+            return RedirectToAction("UsuarioList");
+        }
+
     }
 }

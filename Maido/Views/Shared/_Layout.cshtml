@@ -28,17 +28,14 @@
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Admin" asp-action="UsuarioList">Usuarios</a>
                         </li>
-                        
-
                         <li class="nav-item">
-                            <a class="btn btn-danger" asp-area="" asp-controller="Login" asp-action="Logout">Cerrar Sesión</a>
-                        </li>
-
-                        <li class="nav-item">
-                            <label class="nav-link text-dark">Nombre: @ViewBag.Usuario.Nombre</label>
+                            <label class="nav-link text-info">Nombre: @ViewBag.Usuario.Nombre</label>
                         </li>
                         <li class="nav-item">
-                            <label class="nav-link text-dark">Rol: @ViewBag.Usuario.Rol</label>
+                            <label class="nav-link text-info">@ViewBag.Usuario.Rol</label>
+                        </li>
+                        <li class="nav-item">
+                            <a class="btn btn-outline-danger" asp-area="" asp-controller="Login" asp-action="Logout">Cerrar Sesión</a>
                         </li>
                     </ul>
                 </div>
