@@ -1,4 +1,5 @@
 using Maido.Data;
+using Maido.Data.Interfaces;
 using Maido.Models;
 using Maido.Utils;
 using Microsoft.AspNetCore.Mvc;
@@ -8,11 +9,11 @@ namespace Maido.Controllers
 {
     public class AdminController : Controller
     {
-        private readonly AppDBContext _context;
+        private readonly IUsuarioRepository _usuarioRepo;
 
-        public AdminController(AppDBContext context)
+        public AdminController(IUsuarioRepository usuarioRepo)
         {
-            _context = context;
+            _usuarioRepo = usuarioRepo;
         }
         public IActionResult Index()
         {
@@ -23,11 +24,11 @@ namespace Maido.Controllers
         [Route("Admin/Usuarios/Lista")]
         public IActionResult UsuarioList()
         {
-            List<Usuario> list = _context.Usuarios.ToList();
+            IEnumerable<Usuario> list = _usuarioRepo.GetAll();
             ViewBag.Usuario = HttpContext.Session.Get<Usuario>("usuarioLogeado");
             return View("Usuario/Index", list);
         }
-        [Route("Admin/Usuarios/Nuevo")]
+       
         public IActionResult UsuarioCreate()
         {
             ViewBag.Usuario = HttpContext.Session.Get<Usuario>("usuarioLogeado");
@@ -38,11 +39,12 @@ namespace Maido.Controllers
         {
             if (ModelState.IsValid)
             {
-                _context.Usuarios.Add(newUsuario);
-                _context.SaveChanges();
-                return RedirectToAction("UsuarioList");
-            }
 
+                _usuarioRepo.Add(newUsuario);
+                return RedirectToAction(nameof(UsuarioList));
+            }
+        
+            ModelState.AddModelError("", "No se pudo crear el usuario. Por favor, revise los datos ingresados.");
             ViewBag.Usuario = HttpContext.Session.Get<Usuario>("usuarioLogeado");
             return View("Usuario/Create", newUsuario);
         }

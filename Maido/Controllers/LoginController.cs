@@ -1,4 +1,6 @@
 ﻿using Maido.Data;
+using Maido.Data.Interfaces;
+using Maido.Data.Repository;
 using Maido.Models;
 using Maido.Utils;
 using Microsoft.AspNetCore.Mvc;
@@ -8,11 +10,12 @@ namespace Maido.Controllers
 {
     public class LoginController : Controller
     {
-        private readonly AppDBContext _context;
+        private readonly IUsuarioRepository _usuarioRepo;
 
-        public LoginController(AppDBContext context)
+        public LoginController(IUsuarioRepository usuarioRepo)
         {
-            _context = context;
+            
+            _usuarioRepo = usuarioRepo;
         }
 
         public IActionResult Login()
@@ -23,7 +26,7 @@ namespace Maido.Controllers
         [HttpPost]
         public IActionResult Login(string username, string password)
         {
-            Usuario u = _context.Usuarios.FirstOrDefault(e => e.NombreUsuario == username && e.Contrasena == password);
+            Usuario u = _usuarioRepo.GetByUsernameAndPassword(username, password);
             if (u == null)
             { 
                 ViewBag.Error = "Usuario o contraseña incorrectos";

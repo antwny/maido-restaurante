@@ -8,7 +8,9 @@ namespace Maido.Models
         public int Id { get; set; }
         [Required]
         public string Nombre { get; set; }
+        [Required]
         public string Rol { get; set; }
+        [Required]
         [Display(Name = "Nombre de Usuario")]
         public string NombreUsuario { get; set; }
         [Required]
@@ -18,6 +20,12 @@ namespace Maido.Models
         [DisplayName("Fecha de Creacion")]
         public DateOnly FechaCreacion { get; set; } = DateOnly.FromDateTime(DateTime.Today);
 
+        public Usuario()
+        {
+            
+        }
+
+       
 
     }
 }
