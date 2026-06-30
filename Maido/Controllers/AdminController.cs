@@ -10,11 +10,13 @@ namespace Maido.Controllers
     public class AdminController : Controller
     {
         private readonly IUsuarioRepository _usuarioRepo;
+        private readonly IMesaRepository _mesaRepo;
         private IEnumerable<String> roles = new List<string> { "Mesero", "Chef", "Cajero", "Admin" };
 
-        public AdminController(IUsuarioRepository usuarioRepo)
+        public AdminController(IUsuarioRepository usuarioRepo, IMesaRepository mesaRepo)
         {
             _usuarioRepo = usuarioRepo;
+            _mesaRepo = mesaRepo;
         }
         public IActionResult Index()
         {
@@ -80,6 +82,33 @@ namespace Maido.Controllers
             usuarioAdesactivar.Activo = true;
             _usuarioRepo.Update(usuarioAdesactivar);
             return RedirectToAction("UsuarioList");
+        }
+
+
+        [Route("Admin/Mesas/Lista")]
+        public IActionResult MesaList()
+        {
+            IEnumerable<Mesa> list = _mesaRepo.GetAll();
+            ViewBag.Usuario = HttpContext.Session.Get<Usuario>("usuarioLogeado");
+            return View("Mesa/Index", list);
+        }
+
+        public IActionResult MesaCreate()
+        {
+            ViewBag.Usuario = HttpContext.Session.Get<Usuario>("usuarioLogeado");
+            return View("Mesa/Create", new Mesa());
+        }
+        [HttpPost]
+        public IActionResult MesaCreate(Mesa newMesa)
+        {
+            if (ModelState.IsValid)
+            {
+                _mesaRepo.Add(newMesa);
+                return RedirectToAction(nameof(MesaList));
+            }
+
+            ViewBag.Usuario = HttpContext.Session.Get<Usuario>("usuarioLogeado");
+            return View("Mesa/Create", newMesa);
         }
 
     }
