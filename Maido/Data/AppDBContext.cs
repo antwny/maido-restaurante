@@ -11,6 +11,7 @@ namespace Maido.Data
         }
 
         public DbSet<Maido.Models.Usuario> Usuarios { get; set; }
+        public DbSet<Maido.Models.Mesa> Mesas { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -26,7 +27,17 @@ namespace Maido.Data
                 tb.Property(col => col.FechaCreacion).IsRequired();
             });
 
+            modelBuilder.Entity<Maido.Models.Mesa>(tb =>
+            {
+                tb.HasKey(col => col.Id);
+                tb.Property(col => col.Id).ValueGeneratedOnAdd();
+                tb.Property(col => col.Nombre).IsRequired().HasMaxLength(100);
+                tb.Property(col => col.Estado).IsRequired().HasMaxLength(50);
+                tb.Property(col => col.Activa).IsRequired();
+            });
+
             modelBuilder.Entity<Usuario>().ToTable("Usuarios");
+            modelBuilder.Entity<Mesa>().ToTable("Mesas");
         }
     }
 }

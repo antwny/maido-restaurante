@@ -33,7 +33,7 @@ namespace Maido.Controllers
                 return View();
             }
             HttpContext.Session.Set("usuarioLogeado", u);
-            return RedirectToAction("Index", "Admin");
+            return RedirectToAction("Index", u.Rol);
 
         }
 

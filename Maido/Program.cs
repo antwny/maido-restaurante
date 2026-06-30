@@ -10,6 +10,7 @@ builder.Services.AddControllersWithViews();
 
 // Repositorios
 builder.Services.AddScoped<IUsuarioRepository, UsuarioRepository>();
+builder.Services.AddScoped<IMesaRepository, MesaRepository>();
 
 builder.Services.AddDbContext<AppDBContext>(options => {
     options.UseSqlServer(builder.Configuration.GetConnectionString("SqlConnection"));

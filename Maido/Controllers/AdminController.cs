@@ -10,6 +10,7 @@ namespace Maido.Controllers
     public class AdminController : Controller
     {
         private readonly IUsuarioRepository _usuarioRepo;
+        private IEnumerable<String> roles = new List<string> { "Mesero", "Chef", "Cajero", "Admin" };
 
         public AdminController(IUsuarioRepository usuarioRepo)
         {
@@ -31,6 +32,7 @@ namespace Maido.Controllers
        
         public IActionResult UsuarioCreate()
         {
+            ViewBag.Roles = roles;
             ViewBag.Usuario = HttpContext.Session.Get<Usuario>("usuarioLogeado");
             return View("Usuario/Create", new Usuario());
         }
@@ -52,6 +54,8 @@ namespace Maido.Controllers
         public IActionResult UsuarioEditar(int id)
         {
             Usuario usuarioAeditar = _usuarioRepo.GetById(id);
+            
+            ViewBag.Roles = roles;
             ViewBag.Usuario = HttpContext.Session.Get<Usuario>("usuarioLogeado");
             return View("Usuario/Edit",usuarioAeditar);
         }

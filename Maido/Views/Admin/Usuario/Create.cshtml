@@ -19,7 +19,9 @@
 
             <div class="form-group">
                 <label asp-for="Rol" class="control-label"></label>
-                <input asp-for="Rol" class="form-control" />
+                <select asp-for="Rol" class="form-control" asp-items="@(new SelectList(ViewBag.Roles))">
+                    <option value="">--Seleccione un rol--</option>
+                </select>
                 <span asp-validation-for="Rol" class="text-danger"></span>
             </div>
 
